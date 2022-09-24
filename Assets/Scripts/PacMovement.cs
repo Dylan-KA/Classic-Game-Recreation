@@ -32,7 +32,7 @@ public class PacMovement : MonoBehaviour
             animator.ResetTrigger("TriggerDown");
             if (tweener.AddTween(item.transform, item.transform.position, pos2, 1.5f))
             {
-                Debug.Log("At pos1 going to pos2");
+                //Debug.Log("At pos1 going to pos2");
             }
         }
         if (transform.position == pos2)
@@ -41,7 +41,7 @@ public class PacMovement : MonoBehaviour
             animator.ResetTrigger("TriggerLeft");
             if (tweener.AddTween(item.transform, item.transform.position, pos3, 1.5f))
             {
-                Debug.Log("At pos2 going to pos3");
+                //Debug.Log("At pos2 going to pos3");
             }
         }
         if (transform.position == pos3)
@@ -50,7 +50,7 @@ public class PacMovement : MonoBehaviour
             animator.ResetTrigger("TriggerUp");
             if (tweener.AddTween(item.transform, item.transform.position, pos4, 1.5f))
             {
-                Debug.Log("At pos3 going to pos4");
+                //Debug.Log("At pos3 going to pos4");
             }
         }
         if (transform.position == pos4)
@@ -59,7 +59,7 @@ public class PacMovement : MonoBehaviour
             animator.ResetTrigger("TriggerRight");
             if (tweener.AddTween(item.transform, item.transform.position, pos1, 1.5f))
             {
-                Debug.Log("At pos4 going to pos1");
+                //Debug.Log("At pos4 going to pos1");
             }
         }
         
