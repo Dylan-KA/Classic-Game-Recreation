@@ -37,7 +37,6 @@ public class LevelGenerator : MonoBehaviour
     int innerInt = 0;
     int outerSize;
     int innerSize;
-    float previousRotation = 0.0f;
 
     void Start()
     {
@@ -91,9 +90,9 @@ public class LevelGenerator : MonoBehaviour
         currentQuadrant = "BottomLeft";
         outerSize = levelMap.GetUpperBound(0);
         innerSize = levelMap.GetUpperBound(1);
-        startPos.x -= outerSize;
-        startPos.y -= (outerSize + 1);
-        for (int outer = 0; outer <= outerSize; outer++)
+        startPos.x -= (innerSize + 1);
+        startPos.y -= outerSize;
+        for (int outer = 0; outer <= outerSize -1; outer++)
         {
             outerInt = outer;
             for (int inner = 0; inner <= innerSize; inner++)
@@ -107,6 +106,19 @@ public class LevelGenerator : MonoBehaviour
     private void bottomRightQuad()
     {
         currentQuadrant = "BottomRight";
+        outerSize = levelMap.GetUpperBound(0);
+        innerSize = levelMap.GetUpperBound(1);
+        startPos.x += (innerSize + 1);
+        for (int outer = 0; outer <= outerSize - 1; outer++)
+        {
+            outerInt = outer;
+            for (int inner = 0; inner <= innerSize; inner++)
+            {
+                currentPos.y = startPos.y - (outerSize - outer);
+                currentPos.x = startPos.x + (innerSize - inner);
+                createAndMove(outer, inner);
+            }
+        }
     }
 
     private void createAndMove(int outer, int inner)
@@ -200,9 +212,14 @@ public class LevelGenerator : MonoBehaviour
                 rotation = new Vector3(0, 0, 90);
                 quaternion = Quaternion.Euler(rotation);
             }
-            if (spriteToLeft() == 4 && spriteAbove() == 4 && spriteBelow() == 4 && spriteToRight() != 4)
+            if (spriteToLeft() == 4 && spriteAbove() == 4 && spriteBelow() == 4 && spriteToRight() != 4 && currentQuadrant == "TopLeft")
             {
                 rotation = new Vector3(0, 0, -90);
+                quaternion = Quaternion.Euler(rotation);
+            }
+            if (spriteToLeft() == 4 && spriteAbove() == 4 && spriteBelow() == 4 && spriteToRight() != 4 && currentQuadrant == "BottomLeft")
+            {
+                rotation = new Vector3(0, 0, 180);
                 quaternion = Quaternion.Euler(rotation);
             }
             if (spriteToLeft() == 0 && spriteToRight() == 5 && spriteAbove() == 4 && spriteBelow() == 5)
@@ -213,6 +230,26 @@ public class LevelGenerator : MonoBehaviour
             if (spriteToLeft() == 0 && spriteToRight() == 0 && spriteAbove() == 4 && spriteBelow() == 0 && currentQuadrant == "TopRight")
             {
                 rotation = new Vector3(0, 0, 180);
+                quaternion = Quaternion.Euler(rotation);
+            }
+            if (spriteToLeft() == 0 && (spriteToRight() == 0 || spriteToRight() == 5) && (spriteAbove() == 0 || spriteAbove() == 5) && spriteBelow() == 4 && currentQuadrant == "BottomRight")
+            {
+                rotation = new Vector3(0, 0, -90);
+                quaternion = Quaternion.Euler(rotation);
+            }
+            if (spriteAbove() == 4 && spriteBelow() == 4 && spriteToRight() == 4 && currentQuadrant == "BottomRight")
+            {
+                rotation = new Vector3(0, 0, 90);
+                quaternion = Quaternion.Euler(rotation);
+            }
+            if (spriteToLeft() == 4 && spriteAbove() == 4 && spriteToRight() == 4 && spriteBelow() == 3 && currentQuadrant == "BottomRight")
+            {
+                rotation = new Vector3(0, 0, 180);
+                quaternion = Quaternion.Euler(rotation);
+            }
+            if (spriteToLeft() == 4 && spriteAbove() == 3 && spriteToRight() == 4 && spriteBelow() == 4 && currentQuadrant == "BottomRight")
+            {
+                rotation = new Vector3(0, 0, 270);
                 quaternion = Quaternion.Euler(rotation);
             }
             if (spriteToLeft() == 4 && spriteToRight() == 4 && spriteAbove() == 4 && spriteBelow() == 3 && currentQuadrant == "TopRight")
@@ -249,14 +286,7 @@ public class LevelGenerator : MonoBehaviour
                 quaternion = Quaternion.Euler(rotation);
             }
         }
-            Debug.Log(
-            currentQuadrant +
-            " outer: " + outer + " inner: " + inner + " currentPos " + currentPos +
-            " SpriteToLeft: " + spriteToLeft() + " SpriteToRight: " + spriteToRight() +
-            " SpriteAbove: " + spriteAbove() + " SpriteBelow: " + spriteBelow() +
-            " outerSize: " + outerSize + " innerSize: " + innerSize);
         currentSprite.transform.rotation = quaternion;
-        previousRotation = rotation.z;
     }
 
     private int spriteToLeft()
