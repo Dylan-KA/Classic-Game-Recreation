@@ -10,8 +10,9 @@ public class AudioControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        introMusic.Play();
-        backgroundMusic.PlayDelayed(introMusic.clip.length);
+        //introMusic.Play();
+        //backgroundMusic.PlayDelayed(introMusic.clip.length);
+        backgroundMusic.Play();
     }
 
     // Update is called once per frame
