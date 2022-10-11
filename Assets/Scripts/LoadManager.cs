@@ -8,7 +8,7 @@ public class LoadManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -21,7 +21,15 @@ public class LoadManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
-            SceneManager.LoadSceneAsync(1);
+            SceneManager.LoadScene(1);
+        }
+    }
+
+    public void loadStartScreen()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            SceneManager.LoadScene(0);
         }
     }
 }

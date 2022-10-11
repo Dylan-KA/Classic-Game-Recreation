@@ -8,10 +8,11 @@ public class AnimatedBorder : MonoBehaviour
     private float transparency = 0;
     private float value;
     private bool ascending = true;
+    private Image image;
     // Start is called before the first frame update
     void Start()
     {
-        
+        image = gameObject.GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -37,6 +38,6 @@ public class AnimatedBorder : MonoBehaviour
             }
         }
         value = (float)transparency / 255.0f;
-        gameObject.GetComponent<Image>().color = new Color(255.0f, 255.0f, 255.0f, value);
+        image.color = new Color(255.0f, 255.0f, 255.0f, value);
     }
 }
