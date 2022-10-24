@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,14 +10,14 @@ public class PacStudentController : MonoBehaviour
     private KeyCode currentInput;
     private KeyCode lastInput;
     private Tweener tweener;
-    private GameObject[] levelSprites;
+    private GameObject[] obstacleSprites;
     private Vector3 futurePos;
 
     // Start is called before the first frame update
     void Start()
     {
         tweener = gameObject.GetComponent<Tweener>();
-        levelSprites = GameObject.FindGameObjectsWithTag("InitialLayout");
+        obstacleSprites = GameObject.FindGameObjectsWithTag("obstacle");
         futurePos = transform.position;
     }
 
@@ -30,12 +31,33 @@ public class PacStudentController : MonoBehaviour
             {
                 if (walkable())
                 {
-                    tweener.AddTween(transform, transform.position, futurePos, 0.5f);
+                    setFuturePos();
+                    tweener.AddTween(transform, transform.position, futurePos, 0.3f);
                 } else
                 {
                     //check currentInput and try to move
                 }
             }
+        }
+    }
+
+    private void setFuturePos()
+    {
+        if (lastInput == KeyCode.W)
+        {
+            futurePos = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+        }
+        if (lastInput == KeyCode.S)
+        {
+            futurePos = new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);
+        }
+        if (lastInput == KeyCode.A)
+        {
+            futurePos = new Vector3(transform.position.x - 1, transform.position.y, transform.position.z);
+        }
+        if (lastInput == KeyCode.D)
+        {
+            futurePos = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z);
         }
     }
 
