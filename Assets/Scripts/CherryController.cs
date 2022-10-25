@@ -38,16 +38,22 @@ public class CherryController : MonoBehaviour
             {   //start at top with random x
                 y = Camera.main.scaledPixelHeight + 16.0f;
                 x = Camera.main.scaledPixelWidth;
-                x += Random.Range(Camera.main.scaledPixelWidth * -1, 0.0f);
-                endPosition = new Vector3(x, y - (Camera.main.scaledPixelHeight + 32.0f), 0.0f);
+                float randomNum = Random.Range(Camera.main.scaledPixelWidth * -1, 0.0f);
+                x += randomNum;
+                float endX = Camera.main.scaledPixelWidth;
+                endX -= (Camera.main.scaledPixelWidth) + randomNum;
+                endPosition = new Vector3(endX, y - (Camera.main.scaledPixelHeight + 32.0f), 0.0f);
             }
             else
             {   //start at bottom with random x
                 y = Camera.main.scaledPixelHeight - 16.0f;
                 y -= Camera.main.scaledPixelHeight;
                 x = Camera.main.scaledPixelWidth;
-                x += Random.Range(Camera.main.scaledPixelWidth * -1, 0.0f);
-                endPosition = new Vector3(x, y + (Camera.main.scaledPixelHeight + 32.0f), 0.0f);
+                float randomNum = Random.Range(Camera.main.scaledPixelWidth * -1, 0.0f);
+                x += randomNum;
+                float endX = Camera.main.scaledPixelWidth;
+                endX -= (Camera.main.scaledPixelWidth) + randomNum;
+                endPosition = new Vector3(endX, y + (Camera.main.scaledPixelHeight + 32.0f), 0.0f);
             }
         } else {
             float horizontal = Random.Range(0.0f, 1.0f);
@@ -55,16 +61,22 @@ public class CherryController : MonoBehaviour
             {   //start at right with random y
                 x = Camera.main.scaledPixelWidth + 16.0f;
                 y = Camera.main.scaledPixelHeight;
-                y += Random.Range(Camera.main.scaledPixelHeight * -1, 0.0f);
-                endPosition = new Vector3(x - (Camera.main.scaledPixelWidth + 32.0f), y, 0.0f);
+                float randomNum = Random.Range(Camera.main.scaledPixelHeight * -1, 0.0f);
+                y += randomNum;
+                float endY = Camera.main.scaledPixelHeight;
+                endY -= (Camera.main.scaledPixelHeight) + randomNum;
+                endPosition = new Vector3(x - (Camera.main.scaledPixelWidth + 32.0f), endY, 0.0f);
             }
             else
             {   //start at left with random y
                 x = Camera.main.scaledPixelWidth - 16.0f;
                 x -= Camera.main.scaledPixelWidth;
                 y = Camera.main.scaledPixelHeight;
-                y += Random.Range(Camera.main.scaledPixelHeight * -1, 0.0f);
-                endPosition = new Vector3(x + (Camera.main.scaledPixelWidth + 32.0f), y, 0.0f);
+                float randomNum = Random.Range(Camera.main.scaledPixelHeight * -1, 0.0f);
+                y += randomNum;
+                float endY = Camera.main.scaledPixelHeight;
+                endY -= (Camera.main.scaledPixelHeight) + randomNum;
+                endPosition = new Vector3(x + (Camera.main.scaledPixelWidth + 32.0f), endY, 0.0f);
             }
         }
         spawnPosition = new Vector3(x, y, 0.0f);
