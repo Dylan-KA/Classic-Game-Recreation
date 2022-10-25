@@ -73,6 +73,6 @@ public class CherryController : MonoBehaviour
         endPosition = Camera.main.ScreenToWorldPoint(endPosition);
         endPosition = new Vector3(endPosition.x, endPosition.y, 0.0f);
         currentCherry = (GameObject)Instantiate(cherry, spawnPosition, Quaternion.identity);
-        tweener.AddTween(currentCherry.transform, currentCherry.transform.position, endPosition, 3.0f);
+        tweener.AddTween(currentCherry.transform, currentCherry.transform.position, endPosition, 5.0f);
     }
 }
