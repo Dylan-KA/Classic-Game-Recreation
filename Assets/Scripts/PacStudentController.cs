@@ -17,6 +17,7 @@ public class PacStudentController : MonoBehaviour
     private List<GameObject> powerPelletSpritesList = new List<GameObject>();
     private Vector3 futurePos;
     private Animator pacStudentAnim;
+    [SerializeField] private Animator[] enemyAnims;
     private AudioSource movementAudio;
     private AudioSource pelletAudio;
     private AudioSource wallAudio;
@@ -24,6 +25,9 @@ public class PacStudentController : MonoBehaviour
     private GameObject dustParticles;
     private GameObject collisionParticles;
     private UIControl HUD;
+    private BoxCollider2D boxCollider;
+    private CherryController CherryController;
+    [SerializeField] private MusicManager music;
 
     // Start is called before the first frame update
     void Start()
@@ -50,6 +54,8 @@ public class PacStudentController : MonoBehaviour
         collisionParticles = GameObject.FindGameObjectWithTag("WallParticle");
         collisionParticles.SetActive(false);
         HUD = GameObject.FindGameObjectWithTag("HUD").GetComponent<UIControl>();
+        boxCollider = gameObject.GetComponent<BoxCollider2D>();
+        CherryController = GameObject.FindGameObjectWithTag("CherrySpawner").GetComponent<CherryController>();
     }
 
     // Update is called once per frame
@@ -57,7 +63,7 @@ public class PacStudentController : MonoBehaviour
     {
         teleport();
         pelletCollision();
-        cherryCollision();  
+        powerPelletCollision();
         getInput();
         if (!tweener.TweenExists(transform)) //if not lerping
         {
@@ -258,12 +264,6 @@ public class PacStudentController : MonoBehaviour
 
     private void powerPelletCollision()
     {
-        //change music
-        //change ghosts to scared
-        //start vulernable timer 10 secs
-        //with 3 secs left change ghosts to recovery
-        //after 10 secs change ghost back to normal
-        //after 10 secs hide timer
         GameObject deletePellet = null;
         foreach (GameObject pellet in powerPelletSpritesList)
         {
@@ -271,6 +271,13 @@ public class PacStudentController : MonoBehaviour
             {
                 deletePellet = pellet;
                 GameObject.Destroy(pellet);
+                foreach (Animator anim in enemyAnims)
+                {
+                    anim.SetBool("Scared", true);
+                    Invoke("resetScaredAnimState", 1.0f);
+                }
+                music.playScared();
+                HUD.vulnerableCountdown();
             }
         }
         if (deletePellet != null)
@@ -279,16 +286,21 @@ public class PacStudentController : MonoBehaviour
         }
     }
 
-    private void cherryCollision()
+    private void resetScaredAnimState()
     {
-        GameObject cherry = GameObject.FindGameObjectWithTag("Cherry");
-        if (cherry != null)
+        foreach (Animator anim in enemyAnims)
         {
-            if (gameObject.transform.position == cherry.transform.position)
-            {
-                GameObject.Destroy(cherry);
-                HUD.addScore(100);
-            }
+            anim.SetBool("Scared", false);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D otherCollider)
+    {
+        if (otherCollider.tag == "Cherry")
+        {
+            CherryController.GetComponent<Tweener>().removeTweens();
+            Destroy(otherCollider.gameObject);
+            HUD.addScore(100);
         }
     }
 }

@@ -22,12 +22,7 @@ public class Tweener : MonoBehaviour
     {
         if (activeTweens != null)
         {
-            List<Tween> listCopy = new List<Tween>();
-            foreach (Tween tweenCopy in activeTweens)
-            {
-                listCopy.Add(tweenCopy);
-            }
-    
+            List<Tween> deleteList = new List<Tween>();
             foreach (Tween tween in activeTweens)
             {
                 elapsedTime += Time.deltaTime;
@@ -42,10 +37,13 @@ public class Tweener : MonoBehaviour
                     tween.Target.position = tween.EndPos;
                     elapsedTime = 0;
                     timeFraction = 0;
-                    listCopy.Remove(tween);
+                    deleteList.Add(tween);
                 }
             }
-            activeTweens = listCopy;
+            foreach (Tween tween in deleteList)
+            {
+                activeTweens.Remove(tween);
+            }
         }
 
     }
@@ -61,6 +59,11 @@ public class Tweener : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void removeTweens()
+    {
+        activeTweens.Clear();
     }
 
     public Boolean TweenExists(Transform target)
