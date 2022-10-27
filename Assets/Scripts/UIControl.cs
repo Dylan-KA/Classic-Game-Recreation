@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using System;
 using TMPro;
 
 public class UIControl : MonoBehaviour
@@ -16,6 +18,10 @@ public class UIControl : MonoBehaviour
     private int playerScore = 0;
 
     [SerializeField] private GameObject timeObj;
+    private TextMeshProUGUI timeText;
+    private float timeElapsed = 0.0f;
+    public bool timerGoing;
+    private TimeSpan timeSpan;
 
     [SerializeField] private GameObject vulnerableLabelObj;
     [SerializeField] private GameObject vulnerableObj;
@@ -31,8 +37,13 @@ public class UIControl : MonoBehaviour
     void Start()
     {
         countdownText = startCountdown.GetComponent<TextMeshProUGUI>();
+
+        timeText = timeObj.GetComponent<TextMeshProUGUI>();
+        timerGoing = true;
+
         scoreText = scoreObj.GetComponent<TextMeshProUGUI>();
-        scoreText.text = "" + playerScore;
+        scoreText.text = "00:00:00";
+
         vulnerableText = vulnerableObj.GetComponent<TextMeshProUGUI>();
         vulnerableText.text = "";
         vulnerableObj.SetActive(false);
@@ -68,7 +79,20 @@ public class UIControl : MonoBehaviour
                 countdownText.text = "";
                 startCountdown.SetActive(false);
                 timerStart = false;
+                StartCoroutine(updateGameTimer());
             }
+        }
+    }
+
+    private IEnumerator updateGameTimer()
+    {
+        while (timerGoing)
+        {
+            timeElapsed += Time.deltaTime;
+            timeSpan = TimeSpan.FromSeconds(timeElapsed);
+            String timerString = timeSpan.ToString("mm':'ss':'ff");
+            timeText.text = timerString;
+            yield return null;
         }
     }
 
