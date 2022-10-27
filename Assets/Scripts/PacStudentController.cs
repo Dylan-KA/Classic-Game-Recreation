@@ -21,9 +21,11 @@ public class PacStudentController : MonoBehaviour
     private AudioSource movementAudio;
     private AudioSource pelletAudio;
     private AudioSource wallAudio;
+    private AudioSource deathAudio;
     private Boolean wallAudioPlayed = false;
     private GameObject dustParticles;
     private GameObject collisionParticles;
+    private GameObject deathParticles;
     private UIControl HUD;
     private BoxCollider2D boxCollider;
     private CherryController CherryController;
@@ -49,10 +51,13 @@ public class PacStudentController : MonoBehaviour
         movementAudio = GameObject.FindGameObjectWithTag("Movement").GetComponent<AudioSource>();
         pelletAudio = GameObject.FindGameObjectWithTag("Pellet").GetComponent<AudioSource>();
         wallAudio = GameObject.FindGameObjectWithTag("WallCollision").GetComponent<AudioSource>();
+        deathAudio = GameObject.FindGameObjectWithTag("Death").GetComponent<AudioSource>();
         dustParticles = GameObject.FindGameObjectWithTag("Particle");
         dustParticles.SetActive(false);
         collisionParticles = GameObject.FindGameObjectWithTag("WallParticle");
         collisionParticles.SetActive(false);
+        deathParticles = GameObject.FindGameObjectWithTag("DeathParticle");
+        deathParticles.SetActive(false);
         HUD = GameObject.FindGameObjectWithTag("HUD").GetComponent<UIControl>();
         boxCollider = gameObject.GetComponent<BoxCollider2D>();
         CherryController = GameObject.FindGameObjectWithTag("CherrySpawner").GetComponent<CherryController>();
@@ -97,6 +102,7 @@ public class PacStudentController : MonoBehaviour
             dustParticles.SetActive(true);
         }
         setFuturePos(currentInput);
+        dustParticles.transform.position = gameObject.transform.position;
         collisionParticles.transform.position = futurePos;
     }
 
@@ -225,7 +231,6 @@ public class PacStudentController : MonoBehaviour
             yield return new WaitForSeconds(2.0f);
             collisionParticles.SetActive(false);
         }
-        
     }
 
     private void teleport()
@@ -302,5 +307,26 @@ public class PacStudentController : MonoBehaviour
             Destroy(otherCollider.gameObject);
             HUD.addScore(100);
         }
+        if (otherCollider.tag == "Enemy") //and state is walking
+        {
+            StartCoroutine(playerDeath());
+            tweener.removeTweens();
+            //maybe snap to closest grid position
+            lastInput = KeyCode.None;
+            currentInput = KeyCode.None;
+            HUD.removeLife();
+            deathParticles.transform.position = otherCollider.transform.position;
+        }
+    }
+
+    IEnumerator playerDeath()
+    {
+        deathParticles.SetActive(true);
+        pacStudentAnim.SetBool("Dead", true);
+        deathAudio.Play();
+        gameObject.transform.position = new Vector3(-8.5f, 12.5f, 0.0f);
+        yield return new WaitForSeconds(2.0f);
+        pacStudentAnim.SetBool("Dead", false);
+        deathParticles.SetActive(false);
     }
 }

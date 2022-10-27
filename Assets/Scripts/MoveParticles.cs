@@ -14,6 +14,6 @@ public class MoveParticles : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameObject.transform.position = player.transform.position;
+        //gameObject.transform.position = player.transform.position;
     }
 }

@@ -18,6 +18,9 @@ public class UIControl : MonoBehaviour
     private int seconds = 11;
     private bool vulnTimerStart = false;
 
+    [SerializeField] private GameObject[] hearts;
+    private int lifeCount = 3;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,7 +46,6 @@ public class UIControl : MonoBehaviour
             vulnTimerStart = false;
             vulnerableObj.SetActive(false);
             vulnerableLabelObj.SetActive(false);
-
         }
     }
 
@@ -61,5 +63,22 @@ public class UIControl : MonoBehaviour
         vulnTimerStart = true;
         vulnTimer = 11.0f;
         //count down from 10
+    }
+
+    public void removeLife()
+    {
+        lifeCount -= 1;
+        if (lifeCount == 2)
+        {
+            Destroy(hearts[2].gameObject);
+        }
+        if (lifeCount == 1)
+        {
+            Destroy(hearts[1].gameObject);
+        }
+        if (lifeCount == 1)
+        {
+            Destroy(hearts[0].gameObject);
+        }
     }
 }

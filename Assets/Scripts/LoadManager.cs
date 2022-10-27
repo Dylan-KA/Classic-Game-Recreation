@@ -17,6 +17,14 @@ public class LoadManager : MonoBehaviour
         
     }
 
+    void Awake()
+    {
+        #if UNITY_EDITOR
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+        #endif
+    }
+
     public void loadLevelOne()
     {
         if (SceneManager.GetActiveScene().buildIndex == 0)
