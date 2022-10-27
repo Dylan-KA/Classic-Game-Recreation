@@ -21,7 +21,8 @@ public class PacStudentController : MonoBehaviour
     private AudioSource movementAudio;
     private AudioSource pelletAudio;
     private AudioSource wallAudio;
-    private AudioSource deathAudio;
+    private AudioSource pacDeathAudio;
+    private AudioSource enemyDeathAudio;
     private Boolean wallAudioPlayed = false;
     private GameObject dustParticles;
     private GameObject collisionParticles;
@@ -51,7 +52,8 @@ public class PacStudentController : MonoBehaviour
         movementAudio = GameObject.FindGameObjectWithTag("Movement").GetComponent<AudioSource>();
         pelletAudio = GameObject.FindGameObjectWithTag("Pellet").GetComponent<AudioSource>();
         wallAudio = GameObject.FindGameObjectWithTag("WallCollision").GetComponent<AudioSource>();
-        deathAudio = GameObject.FindGameObjectWithTag("Death").GetComponent<AudioSource>();
+        pacDeathAudio = GameObject.FindGameObjectWithTag("Death").GetComponent<AudioSource>();
+        enemyDeathAudio = GameObject.FindGameObjectWithTag("EnemyDeath").GetComponent<AudioSource>();
         dustParticles = GameObject.FindGameObjectWithTag("Particle");
         dustParticles.SetActive(false);
         collisionParticles = GameObject.FindGameObjectWithTag("WallParticle");
@@ -69,7 +71,10 @@ public class PacStudentController : MonoBehaviour
         teleport();
         pelletCollision();
         powerPelletCollision();
-        getInput();
+        if (!pacStudentAnim.GetBool("Dead"))
+        {
+            getInput();
+        }
         if (!tweener.TweenExists(transform)) //if not lerping
         {
             StartCoroutine(removeParticles());
@@ -279,7 +284,7 @@ public class PacStudentController : MonoBehaviour
                 foreach (Animator anim in enemyAnims)
                 {
                     anim.SetBool("Scared", true);
-                    Invoke("resetScaredAnimState", 1.0f);
+                    Invoke("resetScaredAnimState", 9.9f);
                 }
                 music.playScared();
                 HUD.vulnerableCountdown();
@@ -301,21 +306,30 @@ public class PacStudentController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D otherCollider)
     {
+        Animator EnemyAnim = null;
         if (otherCollider.tag == "Cherry")
         {
             CherryController.GetComponent<Tweener>().removeTweens();
             Destroy(otherCollider.gameObject);
             HUD.addScore(100);
+        } else
+        {
+            EnemyAnim = otherCollider.GetComponent<Animator>();
         }
-        if (otherCollider.tag == "Enemy") //and state is walking
+        if (otherCollider.tag == "Enemy" && !EnemyAnim.GetBool("Scared"))
         {
             StartCoroutine(playerDeath());
             tweener.removeTweens();
-            //maybe snap to closest grid position
             lastInput = KeyCode.None;
             currentInput = KeyCode.None;
             HUD.removeLife();
             deathParticles.transform.position = otherCollider.transform.position;
+        }
+        if (otherCollider.tag == "Enemy" && EnemyAnim.GetBool("Scared"))
+        {
+            EnemyAnim.SetBool("Dead", true);
+            HUD.addScore(300);
+            enemyDeathAudio.Play();
         }
     }
 
@@ -323,10 +337,16 @@ public class PacStudentController : MonoBehaviour
     {
         deathParticles.SetActive(true);
         pacStudentAnim.SetBool("Dead", true);
-        deathAudio.Play();
+        pacDeathAudio.Play();
+        Vector3 pos = gameObject.transform.position;
+        float posX = (float)Math.Round(pos.x * 2) / 2;
+        float posY = (float)Math.Round(pos.y * 2) / 2;
+        Vector3 nearestGrid = new Vector3((posX), posY, pos.z);
+        gameObject.transform.position = nearestGrid;
+        yield return new WaitForSeconds(1.0f);
         gameObject.transform.position = new Vector3(-8.5f, 12.5f, 0.0f);
-        yield return new WaitForSeconds(2.0f);
         pacStudentAnim.SetBool("Dead", false);
+        yield return new WaitForSeconds(1.0f);
         deathParticles.SetActive(false);
     }
 }
