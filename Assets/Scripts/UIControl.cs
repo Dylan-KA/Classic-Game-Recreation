@@ -5,6 +5,12 @@ using TMPro;
 
 public class UIControl : MonoBehaviour
 {
+    [SerializeField] private GameObject startCountdown;
+    private TextMeshProUGUI countdownText;
+    float timer = 4.0f;
+    private int timerIntSecs = 4;
+    public bool timerStart = true;
+
     [SerializeField] private GameObject scoreObj;
     private TextMeshProUGUI scoreText;
     private int playerScore = 0;
@@ -24,6 +30,7 @@ public class UIControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        countdownText = startCountdown.GetComponent<TextMeshProUGUI>();
         scoreText = scoreObj.GetComponent<TextMeshProUGUI>();
         scoreText.text = "" + playerScore;
         vulnerableText = vulnerableObj.GetComponent<TextMeshProUGUI>();
@@ -47,6 +54,22 @@ public class UIControl : MonoBehaviour
             vulnerableObj.SetActive(false);
             vulnerableLabelObj.SetActive(false);
         }
+        if (timerStart)
+        {
+            timer -= Time.deltaTime;
+            timerIntSecs = (int)timer;
+            countdownText.text = "" + timerIntSecs;
+            if (timerIntSecs <= 0)
+            {
+                countdownText.text = "GO!";
+            }
+            if (timerIntSecs <= -1)
+            {
+                countdownText.text = "";
+                startCountdown.SetActive(false);
+                timerStart = false;
+            }
+        }
     }
 
     public void addScore(int score)
@@ -62,7 +85,6 @@ public class UIControl : MonoBehaviour
 
         vulnTimerStart = true;
         vulnTimer = 11.0f;
-        //count down from 10
     }
 
     public void removeLife()

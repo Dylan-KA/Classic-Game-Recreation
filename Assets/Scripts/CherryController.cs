@@ -16,7 +16,7 @@ public class CherryController : MonoBehaviour
     void Start()
     {
         tweener = gameObject.GetComponent<Tweener>();
-        InvokeRepeating("instantiate", 0.0f, 10.0f);
+        InvokeRepeating("instantiate", 4.0f, 10.0f);
     }
 
     // Update is called once per frame

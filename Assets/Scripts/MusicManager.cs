@@ -9,7 +9,7 @@ public class MusicManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Invoke("playNormal", 3.0f);
+        Invoke("playNormal", 4.0f);
     }
 
     // Update is called once per frame

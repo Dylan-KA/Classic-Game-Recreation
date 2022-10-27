@@ -71,7 +71,7 @@ public class PacStudentController : MonoBehaviour
         teleport();
         pelletCollision();
         powerPelletCollision();
-        if (!pacStudentAnim.GetBool("Dead"))
+        if (!pacStudentAnim.GetBool("Dead") && !HUD.timerStart)
         {
             getInput();
         }
