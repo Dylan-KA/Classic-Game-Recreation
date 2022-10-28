@@ -63902,6 +63902,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 751706330456750120, guid: 8ed01599dc62f47168d7d8fceba9df3e, type: 3}
+      propertyPath: m_Name
+      value: Ghost4Canvas
+      objectReference: {fileID: 0}
     - target: {fileID: 1221199413794112258, guid: 8ed01599dc62f47168d7d8fceba9df3e, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -63949,6 +63953,10 @@ PrefabInstance:
     - target: {fileID: 1221199413794112284, guid: 8ed01599dc62f47168d7d8fceba9df3e, type: 3}
       propertyPath: m_Name
       value: Enemy Green
+      objectReference: {fileID: 0}
+    - target: {fileID: 1221199413794112284, guid: 8ed01599dc62f47168d7d8fceba9df3e, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -64007,6 +64015,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1964680840091256728, guid: a1ca490395e28426fa0765017f1fbf35, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253266769297547696, guid: a1ca490395e28426fa0765017f1fbf35, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253266769297547696, guid: a1ca490395e28426fa0765017f1fbf35, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253266769297547696, guid: a1ca490395e28426fa0765017f1fbf35, type: 3}
+      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -64099,10 +64119,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2061852419, guid: 0401bd1b02d8342c680d2930aba9a94e, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6718520596954049221, guid: 0401bd1b02d8342c680d2930aba9a94e, type: 3}
       propertyPath: m_RootOrder
       value: 7

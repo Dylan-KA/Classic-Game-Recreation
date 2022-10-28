@@ -248,8 +248,8 @@ GameObject:
   - component: {fileID: 6718520596954049221}
   - component: {fileID: 6718520596954049222}
   - component: {fileID: 6718520596954049220}
-  - component: {fileID: 8268991082163471029}
-  - component: {fileID: 2061852419}
+  - component: {fileID: 5960309166612685267}
+  - component: {fileID: 8974519409040119844}
   m_Layer: 0
   m_Name: Enemy Blue
   m_TagString: Enemy
@@ -345,7 +345,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!50 &8268991082163471029
+--- !u!50 &5960309166612685267
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -366,7 +366,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &2061852419
+--- !u!61 &8974519409040119844
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
