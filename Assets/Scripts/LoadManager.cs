@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,7 +17,7 @@ public class LoadManager : MonoBehaviour
     {
         
     }
-
+        
     void Awake()
     {
         #if UNITY_EDITOR

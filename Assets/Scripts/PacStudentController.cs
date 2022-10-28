@@ -7,6 +7,7 @@ using UnityEngine.U2D;
 
 public class PacStudentController : MonoBehaviour
 {
+    private LoadManager loadManager;
     private KeyCode currentInput;
     private KeyCode lastInput;
     private Tweener tweener;
@@ -27,14 +28,16 @@ public class PacStudentController : MonoBehaviour
     private GameObject dustParticles;
     private GameObject collisionParticles;
     private GameObject deathParticles;
-    private UIControl HUD;
+    private GameUIControl HUD;
     private BoxCollider2D boxCollider;
     private CherryController CherryController;
     [SerializeField] private MusicManager music;
+    private Boolean gameOver = true;
 
     // Start is called before the first frame update
     void Start()
     {
+        loadManager = GameObject.FindGameObjectWithTag("Load").GetComponent<LoadManager>();
         tweener = gameObject.GetComponent<Tweener>();
         obstacleSprites = GameObject.FindGameObjectsWithTag("obstacle");
         pelletSprites = GameObject.FindGameObjectsWithTag("InitialLayout");
@@ -60,7 +63,7 @@ public class PacStudentController : MonoBehaviour
         collisionParticles.SetActive(false);
         deathParticles = GameObject.FindGameObjectWithTag("DeathParticle");
         deathParticles.SetActive(false);
-        HUD = GameObject.FindGameObjectWithTag("HUD").GetComponent<UIControl>();
+        HUD = GameObject.FindGameObjectWithTag("HUD").GetComponent<GameUIControl>();
         boxCollider = gameObject.GetComponent<BoxCollider2D>();
         CherryController = GameObject.FindGameObjectWithTag("CherrySpawner").GetComponent<CherryController>();
     }
@@ -68,12 +71,12 @@ public class PacStudentController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        teleport();
-        pelletCollision();
-        powerPelletCollision();
-        if (!pacStudentAnim.GetBool("Dead") && !HUD.timerStart)
+        if (!pacStudentAnim.GetBool("Dead") && !HUD.timerStart && HUD.timerGoing)
         {
             getInput();
+            teleport();
+            pelletCollision();
+            powerPelletCollision();
         }
         if (!tweener.TweenExists(transform)) //if not lerping
         {
@@ -109,6 +112,7 @@ public class PacStudentController : MonoBehaviour
         setFuturePos(currentInput);
         dustParticles.transform.position = gameObject.transform.position;
         collisionParticles.transform.position = futurePos;
+        checkGameOver();
     }
 
     private void playAudio()
@@ -188,6 +192,7 @@ public class PacStudentController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W))
         {
             lastInput = KeyCode.W;
+
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
@@ -348,5 +353,35 @@ public class PacStudentController : MonoBehaviour
         pacStudentAnim.SetBool("Dead", false);
         yield return new WaitForSeconds(1.0f);
         deathParticles.SetActive(false);
+    }
+
+    private IEnumerator gameover()
+    {
+        if (gameOver)
+        {
+            gameOver = false;
+            StartCoroutine(HUD.displayGameover());
+            HUD.timerGoing = false;
+            tweener.removeTweens();
+            lastInput = KeyCode.None;
+            currentInput = KeyCode.None;
+            //remember to stop enemey movement too ^^^
+            if (HUD.getScore() > PlayerPrefs.GetInt("HighScore") || (HUD.getScore() == PlayerPrefs.GetInt("HighScore") && HUD.getTime() < PlayerPrefs.GetFloat("Time")))
+            {
+                PlayerPrefs.SetInt("HighScore", HUD.getScore());
+                PlayerPrefs.SetFloat("Time", HUD.getTime());
+                PlayerPrefs.Save();
+            }
+            yield return new WaitForSeconds(3.0f);
+            loadManager.loadStartScreen();
+        }
+    }
+
+    private void checkGameOver()
+    {
+        if (pelletSpritesList.Count == 0 || HUD.noLivesLeft())
+        {
+            StartCoroutine(gameover());
+        }
     }
 }

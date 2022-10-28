@@ -5,13 +5,16 @@ using UnityEngine.UI;
 using System;
 using TMPro;
 
-public class UIControl : MonoBehaviour
+public class GameUIControl : MonoBehaviour
 {
     [SerializeField] private GameObject startCountdown;
     private TextMeshProUGUI countdownText;
     float timer = 4.0f;
     private int timerIntSecs = 4;
     public bool timerStart = true;
+
+    [SerializeField] private GameObject gameoverObj;
+    private TextMeshProUGUI gameovertext;
 
     [SerializeField] private GameObject scoreObj;
     private TextMeshProUGUI scoreText;
@@ -37,6 +40,9 @@ public class UIControl : MonoBehaviour
     void Start()
     {
         countdownText = startCountdown.GetComponent<TextMeshProUGUI>();
+
+        gameovertext = gameoverObj.GetComponent<TextMeshProUGUI>();
+        gameoverObj.SetActive(false);
 
         timeText = timeObj.GetComponent<TextMeshProUGUI>();
         timerGoing = true;
@@ -122,9 +128,36 @@ public class UIControl : MonoBehaviour
         {
             Destroy(hearts[1].gameObject);
         }
-        if (lifeCount == 1)
+        if (lifeCount == 0)
         {
             Destroy(hearts[0].gameObject);
         }
+    }
+
+    public int getScore()
+    {
+        return playerScore;
+    }
+
+    public float getTime()
+    {
+        return timeElapsed;
+    }
+
+    public IEnumerator displayGameover()
+    {
+        gameovertext.text = "Game Over";
+        gameoverObj.SetActive(true);
+        yield return new WaitForSeconds(3.0f);
+        gameoverObj.SetActive(false);
+    }
+
+    public Boolean noLivesLeft()
+    {
+        if (lifeCount == 0)
+        {
+            return true;
+        }
+        return false;
     }
 }
