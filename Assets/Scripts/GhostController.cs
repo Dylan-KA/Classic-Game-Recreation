@@ -22,6 +22,11 @@ public class GhostController : MonoBehaviour
     private Transform enemyTrans;
     private GameUIControl HUD;
     private Animator enemyAnimator;
+    private Boolean inSpawn = true;
+    private String cornerDestination = "BottomRight";
+    private float cornerDistance;
+    private float futureCornerDistance;
+    private Vector3[] corners = new Vector3[4];
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +56,10 @@ public class GhostController : MonoBehaviour
         {
             enemyNumber = 4;
         }
+        corners[0] = new Vector3(16.5f, -13.5f, 0.0f); //Bottom Right
+        corners[1] = new Vector3(-8.5f, -13.5f, 0.0f); //Bottom Left
+        corners[2] = new Vector3(-8.5f, 12.5f, 0.0f); //Top Left
+        corners[3] = new Vector3(16.5f, 12.5f, 0.0f); //Top Right
     }
 
     // Update is called once per frame
@@ -59,21 +68,49 @@ public class GhostController : MonoBehaviour
         if (!HUD.timerStart)
         {
             distanceToPlayer = Vector3.Distance(player.transform.position, gameObject.transform.position);
+
             if (!enemyAnimator.GetBool("Scared"))
             {
                 switch (enemyNumber)
                 {
                     case 1:
-                        enemy1Movement();
+                        if (!inSpawn)
+                        {
+                            enemy1Movement();
+                        } else
+                        {
+                            enemy1LeaveSpawn();
+                        }
                         break;
                     case 2:
-                        enemy2Movement();
+                        if (!inSpawn)
+                        {
+                            enemy2Movement();
+                        }
+                        else
+                        {
+                            enemy2LeaveSpawn();
+                        }
                         break;
                     case 3:
-                        enemy3Movement();
+                        if (!inSpawn)
+                        {
+                            enemy3Movement();
+                        }
+                        else
+                        {
+                            enemy3LeaveSpawn();
+                        }
                         break;
                     case 4:
-                        enemy4Movement();
+                        if (!inSpawn)
+                        {
+                            enemy4Movement();
+                        }
+                        else
+                        {
+                            enemy4LeaveSpawn();
+                        }
                         break;
                 }
             } else
@@ -183,12 +220,59 @@ public class GhostController : MonoBehaviour
 
     private void enemy4Movement()
     {
-
-    }
-
-    public void leaveSpawn()
-    {
-
+        if (!tweener.TweenExists(transform))
+        {
+            calculateCornerDistance();
+            calculateFuturePositions();
+            validDirections.Clear();
+            foreach (Vector3 pos in potentialDirections)
+            {
+                if (walkable(pos) && pos != previousPos)
+                {
+                    validDirections.Add(pos);
+                }
+            }
+            System.Random random = new System.Random();
+            int index = random.Next(validDirections.Count);
+            if (validDirections.Count == 0)
+            {
+                validDirections.Add(previousPos);
+            }
+            calculateFutureCornerDistance(validDirections[index]);
+            if (futureCornerDistance > cornerDistance)
+            {
+                Vector3 temp = validDirections[index];
+                validDirections.Remove(validDirections[index]);
+                index = random.Next(validDirections.Count);
+                if (validDirections.Count == 0)
+                {
+                    validDirections.Add(temp);
+                }
+                calculateFutureCornerDistance(validDirections[index]);
+            }
+            tweener.AddTween(enemyTrans, enemyTrans.position, validDirections[index], 0.3f);
+            previousPos = enemyTrans.position;
+            if (enemyTrans.position == corners[0])
+            {
+                previousPos = Vector3.zero;
+                cornerDestination = "BottomLeft";
+            }
+            if (enemyTrans.position == corners[1])
+            {
+                previousPos = Vector3.zero;
+                cornerDestination = "TopLeft";
+            }
+            if (enemyTrans.position == corners[2])
+            {
+                previousPos = Vector3.zero;
+                cornerDestination = "TopRight";
+            }
+            if (enemyTrans.position == corners[3])
+            {
+                previousPos = Vector3.zero;
+                cornerDestination = "BottomRight";
+            }
+        }
     }
 
     public void moveToSpawn()
@@ -208,6 +292,10 @@ public class GhostController : MonoBehaviour
     {
         Vector3 teleportLeft = new Vector3(-4.5f, -0.5f, 0.0f);
         Vector3 teleportRight = new Vector3(12.5f, -0.5f, 0.0f);
+        Vector3 spawn1 = new Vector3(3.5f, 1.5f, 0.0f);
+        Vector3 spawn2 = new Vector3(4.5f, 1.5f, 0.0f);
+        Vector3 spawn3 = new Vector3(3.5f, -2.5f, 0.0f);
+        Vector3 spawn4 = new Vector3(4.5f, -2.5f, 0.0f);
         foreach (GameObject sprite in obstacleSprites)
         {
             if (sprite.transform.position == futurePos)
@@ -223,6 +311,10 @@ public class GhostController : MonoBehaviour
             }
         }
         if (futurePos == teleportLeft || futurePos == teleportRight)
+        {
+            return false;
+        }
+        if (futurePos == spawn1 || futurePos == spawn2 || futurePos == spawn3 || futurePos == spawn4)
         {
             return false;
         }
@@ -243,5 +335,142 @@ public class GhostController : MonoBehaviour
         potentialDirections.Add(Vector3.zero);
         potentialDirections.Add(Vector3.zero);
         potentialDirections.Add(Vector3.zero);
+    }
+
+    private void enemy1LeaveSpawn()
+    {
+        calculateFuturePositions();
+        if (enemyTrans.position == spawnPos)
+        {
+            tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[3], 0.3f);
+        }
+        if (enemyTrans.position == new Vector3(3.5f, 0.5f, 0.0f) )
+        {
+            tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[3], 0.3f);
+        }
+        if (enemyTrans.position == new Vector3(4.5f, 0.5f, 0.0f))
+        {
+            tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[1], 0.3f);
+        }
+        if (enemyTrans.position == new Vector3(4.5f, -0.5f, 0.0f))
+        {
+            tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[1], 0.3f);
+        }
+        if (enemyTrans.position == new Vector3(4.5f, -1.5f, 0.0f))
+        {
+            tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[1], 0.3f);
+        }
+        if (enemyTrans.position == new Vector3(4.5f, -2.5f, 0.0f))
+        {
+            tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[1], 0.3f);
+        }
+        if (enemyTrans.position == new Vector3(4.5f, -3.5f, 0.0f))
+        {
+            inSpawn = false;
+        }
+    }
+
+    private void enemy2LeaveSpawn()
+    {
+        calculateFuturePositions();
+        if (enemyTrans.position == spawnPos)
+        {
+            tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[2], 0.3f);
+        }
+        if (enemyTrans.position == new Vector3(4.5f, 0.5f, 0.0f))
+        {
+            tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[0], 0.3f);
+        }
+        if (enemyTrans.position == new Vector3(4.5f, 1.5f, 0.0f))
+        {
+            tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[0], 0.3f);
+        }
+        if (enemyTrans.position == new Vector3(4.5f, 2.5f, 0.0f))
+        {
+            inSpawn = false;
+        }
+    }
+
+    private void enemy3LeaveSpawn()
+    {
+        calculateFuturePositions();
+        if (enemyTrans.position == spawnPos)
+        {
+            tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[3], 0.3f);
+        }
+        if (enemyTrans.position == new Vector3(3.5f, -1.5f, 0.0f))
+        {
+            tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[1], 0.3f);
+        }
+        if (enemyTrans.position == new Vector3(3.5f, -2.5f, 0.0f))
+        {
+            tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[1], 0.3f);
+        }
+        if (enemyTrans.position == new Vector3(3.5f, -3.5f, 0.0f))
+        {
+            inSpawn = false;
+        }
+    }
+
+    private void enemy4LeaveSpawn()
+    {
+        calculateFuturePositions();
+        if (enemyTrans.position == spawnPos)
+        {
+            tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[2], 0.3f);
+            enemyAnimator.SetBool("Dead", true);
+        }
+        if (enemyTrans.position == new Vector3(4.5f, -1.5f, 0.0f))
+        {
+            tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[1], 0.3f);
+        }
+        if (enemyTrans.position == new Vector3(4.5f, -2.5f, 0.0f))
+        {
+            tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[1], 0.3f);
+        }
+        if (enemyTrans.position == new Vector3(4.5f, -3.5f, 0.0f))
+        {
+            inSpawn = false;
+        }
+    }
+
+    private void calculateCornerDistance()
+    {
+        if (cornerDestination == "BottomRight")
+        {
+            cornerDistance = Vector3.Distance(enemyTrans.position, corners[0]);
+        }
+        if (cornerDestination == "BottomLeft")
+        {
+            cornerDistance = Vector3.Distance(enemyTrans.position, corners[1]);
+        }
+        if (cornerDestination == "TopLeft")
+        {
+            cornerDistance = Vector3.Distance(enemyTrans.position, corners[2]);
+        }
+        if (cornerDestination == "TopRight")
+        {
+            cornerDistance = Vector3.Distance(enemyTrans.position, corners[3]);
+        }
+    }
+
+    private void calculateFutureCornerDistance(Vector3 futurePos)
+    {
+        if (cornerDestination == "BottomRight")
+        {
+            futureCornerDistance = Vector3.Distance(futurePos, corners[0]);
+        }
+        if (cornerDestination == "BottomLeft")
+        {
+            futureCornerDistance = Vector3.Distance(futurePos, corners[1]);
+        }
+        if (cornerDestination == "TopLeft")
+        {
+            futureCornerDistance = Vector3.Distance(futurePos, corners[2]);
+        }
+        if (cornerDestination == "TopRight")
+        {
+            futureCornerDistance = Vector3.Distance(futurePos, corners[3]);
+        }
     }
 }
