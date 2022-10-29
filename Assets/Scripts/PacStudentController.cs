@@ -78,7 +78,7 @@ public class PacStudentController : MonoBehaviour
             pelletCollision();
             powerPelletCollision();
         }
-        if (!tweener.TweenExists(transform)) //if not lerping
+        if (!tweener.TweenExists(transform))
         {
             StartCoroutine(removeParticles());
             if (lastInput != KeyCode.None)
@@ -335,6 +335,8 @@ public class PacStudentController : MonoBehaviour
             EnemyAnim.SetBool("Dead", true);
             HUD.addScore(300);
             enemyDeathAudio.Play();
+            GhostController ghost = otherCollider.gameObject.GetComponent<GhostController>();
+            ghost.moveToSpawn();
         }
     }
 

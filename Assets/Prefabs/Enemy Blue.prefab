@@ -250,6 +250,8 @@ GameObject:
   - component: {fileID: 6718520596954049220}
   - component: {fileID: 5960309166612685267}
   - component: {fileID: 8974519409040119844}
+  - component: {fileID: 2061852422}
+  - component: {fileID: 6488418515087240622}
   m_Layer: 0
   m_Name: Enemy Blue
   m_TagString: Enemy
@@ -392,3 +394,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.16}
   m_EdgeRadius: 0
+--- !u!114 &2061852422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6718520596954049223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 365446c2fed52429995fc7a962c5704a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6488418515087240622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6718520596954049223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c3173b94842f41fdbdf1f98539bf510, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

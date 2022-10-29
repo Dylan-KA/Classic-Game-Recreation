@@ -28,7 +28,7 @@ RectTransform:
   m_GameObject: {fileID: 1591021663661535313}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.099999994, y: 0.099999994, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5482346703765225031}
@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.48000002, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0.16, y: 0.16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3700809806577908075
@@ -115,6 +115,8 @@ GameObject:
   - component: {fileID: 1964680840091256729}
   - component: {fileID: 1359306405}
   - component: {fileID: 1359306404}
+  - component: {fileID: 861801969}
+  - component: {fileID: 2562728328807141604}
   m_Layer: 0
   m_Name: Enemy Orange
   m_TagString: Enemy
@@ -136,7 +138,7 @@ Transform:
   m_Children:
   - {fileID: 4253266769297547696}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1964680840091256711
 SpriteRenderer:
@@ -257,6 +259,30 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &861801969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1964680840091256710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 365446c2fed52429995fc7a962c5704a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2562728328807141604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1964680840091256710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c3173b94842f41fdbdf1f98539bf510, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2668725390058060366
 GameObject:
   m_ObjectHideFlags: 0

@@ -11442,7 +11442,6 @@ GameObject:
   - component: {fileID: 486798680}
   - component: {fileID: 486798679}
   - component: {fileID: 486798678}
-  - component: {fileID: 486798681}
   m_Layer: 0
   m_Name: DustParticle
   m_TagString: Particle
@@ -16255,18 +16254,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
---- !u!114 &486798681
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 486798677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71fb4edd4e9934e6bb17f4108933a2a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &495961481 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 671732926681193742, guid: 8aa86a83a5148437b948a4ab81d80c33, type: 3}
@@ -41081,7 +41068,6 @@ GameObject:
   - component: {fileID: 1572867104}
   - component: {fileID: 1572867103}
   - component: {fileID: 1572867102}
-  - component: {fileID: 1572867101}
   m_Layer: 0
   m_Name: DeathParticle
   m_TagString: DeathParticle
@@ -41089,18 +41075,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1572867101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1572867100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71fb4edd4e9934e6bb17f4108933a2a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!199 &1572867102
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -49115,7 +49089,6 @@ GameObject:
   - component: {fileID: 1751139580}
   - component: {fileID: 1751139579}
   - component: {fileID: 1751139578}
-  - component: {fileID: 1751139577}
   m_Layer: 0
   m_Name: WallParticle
   m_TagString: WallParticle
@@ -49123,18 +49096,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1751139577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1751139576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71fb4edd4e9934e6bb17f4108933a2a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!199 &1751139578
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -63902,10 +63863,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 751706330456750120, guid: 8ed01599dc62f47168d7d8fceba9df3e, type: 3}
-      propertyPath: m_Name
-      value: Ghost4Canvas
-      objectReference: {fileID: 0}
     - target: {fileID: 1221199413794112258, guid: 8ed01599dc62f47168d7d8fceba9df3e, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -63953,10 +63910,6 @@ PrefabInstance:
     - target: {fileID: 1221199413794112284, guid: 8ed01599dc62f47168d7d8fceba9df3e, type: 3}
       propertyPath: m_Name
       value: Enemy Green
-      objectReference: {fileID: 0}
-    - target: {fileID: 1221199413794112284, guid: 8ed01599dc62f47168d7d8fceba9df3e, type: 3}
-      propertyPath: m_TagString
-      value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -64015,18 +63968,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1964680840091256728, guid: a1ca490395e28426fa0765017f1fbf35, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4253266769297547696, guid: a1ca490395e28426fa0765017f1fbf35, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4253266769297547696, guid: a1ca490395e28426fa0765017f1fbf35, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4253266769297547696, guid: a1ca490395e28426fa0765017f1fbf35, type: 3}
-      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -64119,6 +64060,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2061852422, guid: 0401bd1b02d8342c680d2930aba9a94e, type: 3}
+      propertyPath: enemies.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6718520596954049221, guid: 0401bd1b02d8342c680d2930aba9a94e, type: 3}
       propertyPath: m_RootOrder
       value: 7

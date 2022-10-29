@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6228392913228762902}
   - component: {fileID: 1365045968372827404}
   m_Layer: 5
-  m_Name: Ghost1Canvas
+  m_Name: Ghost4Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115,6 +115,8 @@ GameObject:
   - component: {fileID: 1221199413794112257}
   - component: {fileID: 1708612284}
   - component: {fileID: 1708612283}
+  - component: {fileID: 2035908502}
+  - component: {fileID: 6160388488591334775}
   m_Layer: 0
   m_Name: Enemy Green
   m_TagString: Enemy
@@ -136,7 +138,7 @@ Transform:
   m_Children:
   - {fileID: 451569180807211898}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1221199413794112259
 SpriteRenderer:
@@ -257,6 +259,30 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2035908502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221199413794112284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 365446c2fed52429995fc7a962c5704a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6160388488591334775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221199413794112284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c3173b94842f41fdbdf1f98539bf510, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5019147342411351927
 GameObject:
   m_ObjectHideFlags: 0
