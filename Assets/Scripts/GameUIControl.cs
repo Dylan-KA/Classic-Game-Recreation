@@ -117,6 +117,11 @@ public class GameUIControl : MonoBehaviour
         vulnTimer = 11.0f;
     }
 
+    public Boolean vulnTimerGoing()
+    {
+        return vulnTimerStart;
+    }
+
     public void removeLife()
     {
         lifeCount -= 1;

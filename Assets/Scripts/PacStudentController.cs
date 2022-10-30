@@ -249,11 +249,13 @@ public class PacStudentController : MonoBehaviour
         Vector3 rightTeleporter = new Vector3(17.5f, -0.5f, 0.0f);
         if (gameObject.transform.position.x <= -9.5f)
         {
+            tweener.removeTweens();
             gameObject.transform.position = rightTeleporter;
             return;
         }
         if (gameObject.transform.position.x >= 17.5f)
         {
+            tweener.removeTweens();
             gameObject.transform.position = leftTeleporter;
             return;
         }
@@ -367,7 +369,10 @@ public class PacStudentController : MonoBehaviour
             tweener.removeTweens();
             lastInput = KeyCode.None;
             currentInput = KeyCode.None;
-            //remember to stop enemey movement too ^^^
+            foreach (Animator enemyAnimator in enemyAnims)
+            {
+                enemyAnimator.gameObject.GetComponent<Tweener>().removeTweens();
+            }
             if (HUD.getScore() > PlayerPrefs.GetInt("HighScore") || (HUD.getScore() == PlayerPrefs.GetInt("HighScore") && HUD.getTime() < PlayerPrefs.GetFloat("Time")))
             {
                 PlayerPrefs.SetInt("HighScore", HUD.getScore());

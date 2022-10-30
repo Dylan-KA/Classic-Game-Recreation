@@ -65,7 +65,7 @@ public class GhostController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!HUD.timerStart)
+        if (!HUD.timerStart && HUD.timerGoing)
         {
             distanceToPlayer = Vector3.Distance(player.transform.position, gameObject.transform.position);
 
@@ -115,10 +115,13 @@ public class GhostController : MonoBehaviour
                 }
             } else
             {
-                enemy1Movement();
+                if (HUD.vulnTimerGoing() && !enemyAnimator.GetBool("Dead"))
+                {
+                    enemy1Movement();
+                }
             }
+            movementAnimations();
         }
-
     }   
 
     private void enemy1Movement()
@@ -250,7 +253,10 @@ public class GhostController : MonoBehaviour
                 }
                 calculateFutureCornerDistance(validDirections[index]);
             }
-            tweener.AddTween(enemyTrans, enemyTrans.position, validDirections[index], 0.3f);
+            if (!enemy4EdgeCases())
+            {
+                tweener.AddTween(enemyTrans, enemyTrans.position, validDirections[index], 0.3f);
+            }
             previousPos = enemyTrans.position;
             if (enemyTrans.position == corners[0])
             {
@@ -275,6 +281,31 @@ public class GhostController : MonoBehaviour
         }
     }
 
+    private Boolean enemy4EdgeCases()
+    {
+        if (enemyTrans.position == new Vector3(5.5f, 8.5f, 0.0f))
+        {
+            tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[0], 0.3f);
+            return true;
+        }
+        if (enemyTrans.position == new Vector3(-3.5f, 5.5f, 0.0f))
+        {
+            tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[2], 0.3f);
+            return true;
+        }
+        if (enemyTrans.position == new Vector3(11.5f, 5.5f, 0.0f))
+        {
+            tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[1], 0.3f);
+            return true;
+        }
+        if (enemyTrans.position == new Vector3(2.5f, -9.5f, 0.0f))
+        {
+            tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[1], 0.3f);
+            return true;
+        }
+        return false;
+    }
+
     public void moveToSpawn()
     {
         float distance = Vector3.Distance(enemyTrans.position, spawnPos);
@@ -286,6 +317,7 @@ public class GhostController : MonoBehaviour
         Vector3 nearestGrid = new Vector3((posX), posY, pos.z);
         gameObject.transform.position = nearestGrid;
         tweener.AddTween(enemyTrans, enemyTrans.position, spawnPos, finalSpeed);
+        inSpawn = true;
     }
 
     private bool walkable(Vector3 futurePos)
@@ -299,13 +331,6 @@ public class GhostController : MonoBehaviour
         foreach (GameObject sprite in obstacleSprites)
         {
             if (sprite.transform.position == futurePos)
-            {
-                return false;
-            }
-        }
-        foreach (GameObject enemy in enemies)
-        {
-            if (enemy.transform.position == futurePos)
             {
                 return false;
             }
@@ -342,6 +367,8 @@ public class GhostController : MonoBehaviour
         calculateFuturePositions();
         if (enemyTrans.position == spawnPos)
         {
+            enemyAnimator.SetBool("Scared", false);
+            enemyAnimator.SetBool("Dead", false);
             tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[3], 0.3f);
         }
         if (enemyTrans.position == new Vector3(3.5f, 0.5f, 0.0f) )
@@ -375,6 +402,8 @@ public class GhostController : MonoBehaviour
         calculateFuturePositions();
         if (enemyTrans.position == spawnPos)
         {
+            enemyAnimator.SetBool("Scared", false);
+            enemyAnimator.SetBool("Dead", false);
             tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[2], 0.3f);
         }
         if (enemyTrans.position == new Vector3(4.5f, 0.5f, 0.0f))
@@ -396,6 +425,8 @@ public class GhostController : MonoBehaviour
         calculateFuturePositions();
         if (enemyTrans.position == spawnPos)
         {
+            enemyAnimator.SetBool("Scared", false);
+            enemyAnimator.SetBool("Dead", false);
             tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[3], 0.3f);
         }
         if (enemyTrans.position == new Vector3(3.5f, -1.5f, 0.0f))
@@ -417,8 +448,9 @@ public class GhostController : MonoBehaviour
         calculateFuturePositions();
         if (enemyTrans.position == spawnPos)
         {
+            enemyAnimator.SetBool("Scared", false);
+            enemyAnimator.SetBool("Dead", false);
             tweener.AddTween(enemyTrans, enemyTrans.position, potentialDirections[2], 0.3f);
-            enemyAnimator.SetBool("Dead", true);
         }
         if (enemyTrans.position == new Vector3(4.5f, -1.5f, 0.0f))
         {
@@ -471,6 +503,41 @@ public class GhostController : MonoBehaviour
         if (cornerDestination == "TopRight")
         {
             futureCornerDistance = Vector3.Distance(futurePos, corners[3]);
+        }
+    }
+
+    private void movementAnimations()
+    {
+        if (tweener.TweenExists(gameObject.transform))
+        {
+            if (tweener.getEndPos() == potentialDirections[0]) //Up
+            {
+                enemyAnimator.SetBool("Up", true);
+                enemyAnimator.SetBool("Down", false);
+                enemyAnimator.SetBool("Left", false);
+                enemyAnimator.SetBool("Right", false);
+            }
+            if (tweener.getEndPos() == potentialDirections[1]) //Down
+            {
+                enemyAnimator.SetBool("Up", false);
+                enemyAnimator.SetBool("Down", true);
+                enemyAnimator.SetBool("Left", false);
+                enemyAnimator.SetBool("Right", false);
+            }
+            if (tweener.getEndPos() == potentialDirections[2]) //Left
+            {
+                enemyAnimator.SetBool("Up", false);
+                enemyAnimator.SetBool("Down", false);
+                enemyAnimator.SetBool("Left", true);
+                enemyAnimator.SetBool("Right", false);
+            }
+            if (tweener.getEndPos() == potentialDirections[3]) //Right
+            {
+                enemyAnimator.SetBool("Up", false);
+                enemyAnimator.SetBool("Down", false);
+                enemyAnimator.SetBool("Left", false);
+                enemyAnimator.SetBool("Right", true);
+            }
         }
     }
 }

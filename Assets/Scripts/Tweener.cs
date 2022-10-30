@@ -10,6 +10,7 @@ public class Tweener : MonoBehaviour
     private List<Tween> activeTweens = new List<Tween>();
     private float timeFraction;
     private float elapsedTime;
+    private Vector3 endPosVec;
 
     // Start is called before the first frame update
     void Start()
@@ -53,6 +54,7 @@ public class Tweener : MonoBehaviour
         if (!TweenExists(targetObject))
         {
             Tween activeTween = new Tween(targetObject, startPos, endPos, Time.time, duration);
+            endPosVec = endPos;
             activeTweens.Add(activeTween);
             return true;
         } else
@@ -79,5 +81,10 @@ public class Tweener : MonoBehaviour
             }
         }   
         return false;
+    }
+
+    public Vector3 getEndPos()
+    {
+        return endPosVec;
     }
 }
